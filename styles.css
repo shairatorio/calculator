@@ -1,0 +1,103 @@
+:root {
+    --color-black: #1C1C1C;
+    --color-white: #FFFFFF;
+    --color-light-gray: #E5E7EB;
+    --color-dark-gray: #333333;
+    --color-dark-blue: #002B5B;
+    --color-red: #EA5455;
+    --color-vanilla: #F6F1E9;
+    --color-pale-khaki: #E4DCCF;
+    --color-pale-sage: #F3E9DD;
+    --color-ivory: #FEFCF3;
+    --color-cream: #F9F5EB;
+
+
+    --font-style-poppins: 'Poppins', sans-serif;
+    --font-style-bai-jamjuree: 'Bai Jamjuree', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 1px solid red;
+}
+
+html, body {
+    height: 100%;
+    overflow: auto;
+}
+
+html {
+    font-size: 62.5%; /* 10px */
+}
+
+body {
+    font-family: var(--font-style-poppins);
+    font-size: 1.6rem; /* 16px */
+    background-color: var(--color-light-green);
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    flex: 1; 
+}
+
+h2 {
+    font-family: var(--font-style-bai-jamjuree);
+}
+
+.fa-github {
+    color: var(--color-light-gray);
+    font-size: 2rem;
+    transition: transform 0.3s ease-in-out;
+}
+  
+.fa-github:hover {
+    transform: rotate(360deg) scale(1.2);
+}
+
+.footer {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem; /* 10px */
+    width: 100%;
+    padding: 1rem; /* 10px */
+    color: var(--color-light-gray);
+    font-size: 1.5rem; /* 15px */
+    background-color: var(--color-dark-gray);
+}
+
+/* ================================================================= */
+/* Media Queries */
+
+/* Media query for screens with a maximum width of 480px */
+@media only screen and (max-width: 480px) {
+/* Styles for small mobile devices */
+
+}
+    
+/* Media query for screens with a minimum width of 481px and a maximum width of 768px */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+/* Styles for medium mobile devices and tablets */
+
+}
+
+/* Media query for screens with a minimum width of 769px and a maximum width of 1024px */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+/* Styles for smaller desktop devices and laptops */
+
+}
+
+/* Media query for screens with a minimum width of 1025px */
+@media only screen and (min-width: 1025px) {
+/* Styles for larger desktop devices and wide screens */
+
+}
