@@ -22,7 +22,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 html, body {
@@ -37,7 +37,7 @@ html {
 body {
     font-family: var(--font-style-poppins);
     font-size: 1.6rem; /* 16px */
-    background-color: var(--color-light-green);
+    background-color: var(--color-vanilla);
     display: flex;
     flex-direction: column;
 }
@@ -45,11 +45,68 @@ body {
 main {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex: 1; 
 }
 
 h2 {
     font-family: var(--font-style-bai-jamjuree);
+    padding: 10px 0;
+}
+
+.calc {
+    color: var(--color-red);
+}
+
+.ulator {
+    color: var(--color-dark-blue)
+}
+
+.container {
+    width: 28%;
+    height: 80%;
+    background-color: var(--color-pale-khaki);
+    /* border: 2px solid brown; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 30px;
+}
+
+/* .calc-container {
+    border: 2px solid blue;
+} */
+
+.title, .output-display, .buttons-grid {
+    margin: 0 25px;
+    border-radius: 10px;
+    /* border: 2px solid red; */
+}
+
+.output-display {
+    padding: 50px;
+    background-color: var(--color-ivory);
+    /* border: 2px solid yellow; */
+}
+
+/* .keys-container {
+    padding: 20px;
+} */
+
+.buttons-grid {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 8px;
+    /* border: 2px solid orange; */
+    padding: 20px;
+    height: 450px;
+    background-color: var(--color-cream);
+}
+
+button {
+    padding: 1px;
+    /* border: 2px solid green; */
 }
 
 .fa-github {
