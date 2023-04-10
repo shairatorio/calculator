@@ -3,17 +3,20 @@
     --color-white: #FFFFFF;
     --color-light-gray: #E5E7EB;
     --color-dark-gray: #333333;
+    --color-gray: #666666;
+    --color-cobalt-blue: #0047AB;
     --color-dark-blue: #002B5B;
-    --color-red: #EA5455;
+    --color-red: #FF0000;
+    --color-blush: #EA5455;
     --color-vanilla: #F6F1E9;
     --color-pale-khaki: #E4DCCF;
     --color-pale-sage: #F3E9DD;
     --color-ivory: #FEFCF3;
     --color-cream: #F9F5EB;
 
-
     --font-style-poppins: 'Poppins', sans-serif;
     --font-style-bai-jamjuree: 'Bai Jamjuree', sans-serif;
+    --font-style-lexend-peta: 'Lexend Peta', sans-serif;
 }
 
 *,
@@ -55,7 +58,7 @@ h2 {
 }
 
 .calc {
-    color: var(--color-red);
+    color: var(--color-blush);
 }
 
 .ulator {
@@ -64,26 +67,31 @@ h2 {
 
 .container {
     width: 28%;
-    height: 80%;
+    height: 90%;
     background-color: var(--color-pale-khaki);
     /* border: 2px solid brown; */
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     border-radius: 30px;
-}
+    border: 1px solid var(--color-dark-gray);
+}   
 
 /* .calc-container {
     border: 2px solid blue;
 } */
 
-.title, .output-display, .buttons-grid {
+.title, .screen-display, .buttons-grid {
     margin: 0 25px;
     border-radius: 10px;
     /* border: 2px solid red; */
 }
 
-.output-display {
+.title {
+    margin-top: 20px;
+}
+
+.screen-display {
     padding: 50px;
     background-color: var(--color-ivory);
     /* border: 2px solid yellow; */
@@ -97,16 +105,76 @@ h2 {
     margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 8px;
+    grid-gap: 15px;
     /* border: 2px solid orange; */
-    padding: 20px;
-    height: 450px;
+    padding: 15px;
+    /* height: 450px; */
+    height: 370px;
     background-color: var(--color-cream);
 }
 
 button {
-    padding: 1px;
+    /* padding: 1px; */
     /* border: 2px solid green; */
+    /* padding: 15px 25px; */
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--color-dark-gray);
+    background-color: var(--color-vanilla);
+    border: 1px solid var(--color-dark-gray);
+    /* border: none; */
+    /* box-shadow: 0 5px #999; */
+    border-radius: 10px;
+    box-shadow: 0 5px var(--color-white), 0px 10px 5px -3px rgba(0, 0, 0, 0.4);
+    font-weight: bold;
+    font-family: var(--font-style-lexend-peta);
+}
+
+button:hover {
+    background-color: var(--color-pale-khaki);
+}
+
+button:active {
+    background-color: var(--color-pale-khaki);
+    /* box-shadow: 0 5px var(--color-gray); */
+    transform: translateY(4px);
+}
+
+.btnClear {
+    background-color: var(--color-blush);
+}
+
+.btnClear:hover {
+    background-color: var(--color-red);
+}
+
+.btnClear:active {
+    background-color: var(--color-red);
+    /* box-shadow: 0 5px var(--color-gray); */
+    transform: translateY(4px);
+}
+
+.btnDelete {
+    background-color: var(--color-dark-blue);
+}
+
+.btnDelete:hover {
+    background-color: var(--color-cobalt-blue);
+}
+
+.btnDelete:active {
+    background-color: var(--color-cobalt-blue);
+    /* box-shadow: 0 5px var(--color-gray); */
+    transform: translateY(4px);
+}
+
+.mathOperators {
+    background-color: var(--color-pale-sage);
+}
+
+.btnClear, .btnDelete {
+    color: var(--color-white);
 }
 
 .fa-github {
