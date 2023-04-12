@@ -88,12 +88,30 @@ h2 {
 }
 
 .title {
-    margin-top: 35px;
+    margin-top: 40px;
 }
 
 .screen-display {
-    padding: 50px;
+    padding: 10px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
     background-color: var(--color-ivory);
+    align-items: flex-end;
+}
+
+.previous-operand, .current-operand {
+    font-family: var(--font-style-bai-jamjuree);
+}
+
+.previous-operand {
+    font-size: 18px;
+}
+
+.current-operand {
+    margin-top: 5px;
+    font-size: 40px;
+    font-weight: bolder;
 }
 
 /* .keys-container {
@@ -131,35 +149,35 @@ button:active {
     transform: translateY(4px);
 }
 
-.btnClear {
+.clear {
     background-color: var(--color-blush);
 }
 
-.btnClear:hover {
+.clear:hover {
     background-color: var(--color-red);
 }
 
-.btnClear:active {
+.clear:active {
     background-color: var(--color-red);
 }
 
-.btnDelete {
+.delete {
     background-color: var(--color-dark-blue);
 }
 
-.btnDelete:hover {
+.delete:hover {
     background-color: var(--color-cobalt-blue);
 }
 
-.btnDelete:active {
+.delete:active {
     background-color: var(--color-cobalt-blue);
 }
 
-.mathOperators {
+.operator {
     background-color: var(--color-pale-sage);
 }
 
-.btnClear, .btnDelete {
+.clear, .delete {
     color: var(--color-white);
 }
 
