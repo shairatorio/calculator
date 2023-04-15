@@ -10,7 +10,9 @@ const currentOperandTextElement = document.querySelector('[data-current-operand]
 
 let previousNumber = '';
 let currentNumber = '';
-let globalOperator = '';
+let currentOperator = '';
+let previousOperator = '';
+let result = '';
 
 function audio(sound) {
     sound.play();
@@ -45,8 +47,14 @@ function percent(x,y) {
 function clear() {
   currentNumber = '';
   previousNumber = '';
+  currentOperator = '';
+  previousOperator = '';
   previousOperandTextElement.innerHTML = '';
   currentOperandTextElement.innerHTML = '';
+  // console.log(currentNumber);
+  // console.log(previousNumber);
+  // console.log(previousOperandTextElement.innerHTML);
+  // console.log(currentOperandTextElement.innerHTML);
 }
 
 // equals() - Evaluates the current expression and displays the result.
@@ -70,22 +78,30 @@ function displayOutput(num) {
 }
 
 function pressedOperator(operator) {
-  //clear();
-  // console.log(currentNumber);
-
   switch(operator) {
     case '+': 
-      previousOperandTextElement.append(`${currentNumber}${operator}`);
-      previousNumber = currentNumber;
-      currentNumber = '';
-      globalOperator = operator;
+      if (previousOperator === '+') {
+        console.log("have data")
+        previousOperandTextElement.innerHTML = '';
+        previousOperandTextElement.append(`${result}${operator}`);
+        previousNumber = result;
+        currentOperator = operator;
+      } else {
+        console.log("no data")
+        previousOperandTextElement.append(`${currentNumber}${operator}`);
+        previousNumber = currentNumber;
+        currentNumber = '';
+        currentOperator = operator;
+      }
+      
   }
 
-  console.log(`pressedOperator currentNumber = ${currentNumber}`);
-  console.log(`pressedOperator previousNumber = ${previousNumber}`);
+  // console.log(`pressedOperator currentNumber = ${currentNumber}`);
+  // console.log(`pressedOperator previousNumber = ${previousNumber}`);
   // console.log(`pressedOperator currentOperand = ${currentOperandTextElement.textContent}`);
-  console.log(`pressedOperator previousOperand = ${previousOperandTextElement.textContent}`);
-  // console.log(`pressedOperator globalOperator = ${globalOperator}`);
+  // console.log(`pressedOperator previousOperand = ${previousOperandTextElement.textContent}`);
+  // console.log(`pressedOperator currentOperator = ${currentOperator}`);
+  // console.log(`pressedOperator previousOperator = ${previousOperator}`);
 }
 
 function addGlobalEventListener(type, selector, callback) {
@@ -100,17 +116,18 @@ addGlobalEventListener("click", ".number", e => {
   displayOutput(e.target.textContent);
   currentNumber += e.target.textContent;
 
-  console.log(`addGlobalEventListener .number currentNumber = ${currentNumber}`);
-  console.log(`addGlobalEventListener previousNumber = ${previousNumber}`);
-  // console.log(`addGlobalEventListener .number currentOperand = ${currentOperandTextElement.textContent}`);
-  console.log(`addGlobalEventListener .number previousOperand = ${previousOperandTextElement.textContent}`);
-  // console.log(`addGlobalEventListener globalOperator = ${globalOperator}`);
+// console.log(`addGlobalEventListener .number currentNumber = ${currentNumber}`);
+// console.log(`addGlobalEventListener .number previousNumber = ${previousNumber}`);
+// console.log(`addGlobalEventListener .number currentOperand = ${currentOperandTextElement.textContent}`);
+// console.log(`addGlobalEventListener .number previousOperand = ${previousOperandTextElement.textContent}`);
+// console.log(`addGlobalEventListener currentOperator = ${currentOperator}`);
+// console.log(`addGlobalEventListener previousOperator = ${previousOperator}`);
 
-  if(globalOperator !== null && globalOperator !== '') {
-    // console.log('operator has value');
+  if(currentOperator !== null && currentOperator !== '') {
+    console.log('operator has value');
     currentOperandTextElement.innerHTML = '';
     displayOutput(e.target.textContent);
-    globalOperator = '';
+    currentOperator = '';
  }
 });
 
@@ -128,8 +145,23 @@ addGlobalEventListener("click", ".clear", () => {
 
 addGlobalEventListener("click", "[data-equals]", () => {  
   audio(click);
-  previousOperandTextElement.append(`${currentNumber}`);
-  currentOperandTextElement.textContent = add(parseInt(previousNumber),(parseInt(currentNumber)));
+
+  if(currentOperator != null) {
+    previousOperandTextElement.append(`${currentNumber}`);
+    console.log(previousNumber,currentNumber);
+    result = add(parseInt(previousNumber),(parseInt(currentNumber)))
+    currentOperandTextElement.textContent = result;
+    currentNumber = '';
+    previousOperator = '+';
+  } else {
+    previousOperandTextElement.append(`${currentNumber}`);
+    console.log(previousNumber,currentNumber);
+    result = add(parseInt(previousNumber),(parseInt(currentNumber)))
+    currentOperandTextElement.textContent = result;
+    currentNumber = '';
+    previousOperator = '+';
+  }
+  
 });
 
 
