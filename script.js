@@ -8,8 +8,8 @@ const equalsButton = document.querySelector('[data-equals]');
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
 
-let previousNumber = '';
 let currentNumber = '';
+let previousNumber = '';
 let currentOperator = '';
 let previousOperator = '';
 let result = '';
@@ -18,90 +18,98 @@ function audio(sound) {
     sound.play();
 }
 
-// add(a, b) - Returns the sum of two numbers a and b.
 function add(x,y) {
   return x + y;
 }
 
-// // subtract(a, b) - Returns the difference between two numbers a and b.
 function subtract(x,y) {
   return x - y;
 }
 
-// multiply(a, b) - Returns the product of two numbers a and b.
 function multiply(x,y) {
   return x * y;
 }
 
-// divide(a, b) - Returns the quotient of two numbers a and b.
 function divide(x,y) {
   return x / y;
 }
 
-// percentage() - Allows the user to calculate percentages.
 function percent(x,y) {
   return x % y;
 }
 
-// clear() - Clears the current input and resets the calculator.
 function clear() {
   currentNumber = '';
   previousNumber = '';
   currentOperator = '';
   previousOperator = '';
-  previousOperandTextElement.innerHTML = '';
   currentOperandTextElement.innerHTML = '';
-  // console.log(currentNumber);
-  // console.log(previousNumber);
-  // console.log(previousOperandTextElement.innerHTML);
-  // console.log(currentOperandTextElement.innerHTML);
+  previousOperandTextElement.innerHTML = '';
 }
 
-// equals() - Evaluates the current expression and displays the result.
 function equals() {
 
 }
 
-// decimal() - Allows the user to input decimal numbers.
 function decimal() {
 
 }
 
-// negative() - Allows the user to input negative numbers.
 function negative() {
 
 }
 
-// displayOutput(num) - Displays the given number on the calculator screen.
-function displayOutput(num) {
+function displayCurrentOutput(num) {
   currentOperandTextElement.append(num);
 }
 
-function pressedOperator(operator) {
-  switch(operator) {
-    case '+': 
-      if (previousOperator === '+') {
-        console.log("have data")
-        previousOperandTextElement.innerHTML = '';
-        previousOperandTextElement.append(`${result}${operator}`);
-        previousNumber = result;
-        currentOperator = operator;
-      } else {
-        console.log("no data")
-        previousOperandTextElement.append(`${currentNumber}${operator}`);
-        previousNumber = currentNumber;
-        currentNumber = '';
-        currentOperator = operator;
-      }
-      
-  }
+function displayPreviousOutput(num,op) {
+  previousOperandTextElement.append(num,op);
+}
 
-  // console.log(`pressedOperator currentNumber = ${currentNumber}`);
-  // console.log(`pressedOperator previousNumber = ${previousNumber}`);
-  // console.log(`pressedOperator currentOperand = ${currentOperandTextElement.textContent}`);
-  // console.log(`pressedOperator previousOperand = ${previousOperandTextElement.textContent}`);
-  // console.log(`pressedOperator currentOperator = ${currentOperator}`);
-  // console.log(`pressedOperator previousOperator = ${previousOperator}`);
+function clearElement(element) {
+  element.innerHTML = '';
+}
+
+function pressedOperator(operator) {
+
+  if (previousOperator === '+' || previousOperator === '-') {
+    clearElement(previousOperandTextElement);
+    displayPreviousOutput(result,operator);
+
+    previousNumber = result;
+
+    console.log(`have data ${currentOperator} / ${previousOperator}`);
+  } else {
+    displayPreviousOutput(currentNumber,operator);
+
+    previousNumber = currentNumber;
+    currentNumber = '';
+
+    console.log(`no data ${currentOperator} / ${previousOperator}`);
+  }
+  currentOperator = operator; 
+
+  // switch(operator) {
+  //   case '+': 
+  //     if (previousOperator === '+') {
+  //       clearElement(previousOperandTextElement);
+  //       displayPreviousOutput(result,operator);
+
+  //       previousNumber = result;
+  //       currentOperator = operator;
+
+  //       console.log(`have data ${currentOperator} ${previousOperator}`)
+  //     } else {
+  //       displayPreviousOutput(currentNumber,operator);
+
+  //       previousNumber = currentNumber;
+  //       currentNumber = '';
+  //       console.log(`no data ${currentOperator} ${previousOperator}`)
+  //     }
+  //     currentOperator = operator; 
+  //   break;    
+  // }
 }
 
 function addGlobalEventListener(type, selector, callback) {
@@ -111,70 +119,59 @@ function addGlobalEventListener(type, selector, callback) {
 }
 
 addGlobalEventListener("click", ".number", e => {  
-  audio(click);
-
-  displayOutput(e.target.textContent);
+  displayCurrentOutput(e.target.textContent);
   currentNumber += e.target.textContent;
-
-// console.log(`addGlobalEventListener .number currentNumber = ${currentNumber}`);
-// console.log(`addGlobalEventListener .number previousNumber = ${previousNumber}`);
-// console.log(`addGlobalEventListener .number currentOperand = ${currentOperandTextElement.textContent}`);
-// console.log(`addGlobalEventListener .number previousOperand = ${previousOperandTextElement.textContent}`);
-// console.log(`addGlobalEventListener currentOperator = ${currentOperator}`);
-// console.log(`addGlobalEventListener previousOperator = ${previousOperator}`);
+  console.log(`addGlobalEventListenerRR .number ${currentOperator} / ${previousOperator}`);
 
   if(currentOperator !== null && currentOperator !== '') {
-    console.log('operator has value');
-    currentOperandTextElement.innerHTML = '';
-    displayOutput(e.target.textContent);
+    clearElement(currentOperandTextElement);
+    displayCurrentOutput(e.target.textContent);
     currentOperator = '';
+    console.log(`operator has value ${currentOperator} / ${previousOperator}`);
  }
 });
 
 addGlobalEventListener("click", ".operator", e => {  
-  audio(click);
-
-  // console.log(e.target.value);
   pressedOperator(e.target.value);
 });
 
 addGlobalEventListener("click", ".clear", () => {  
-  audio(click);
   clear();
 });
 
 addGlobalEventListener("click", "[data-equals]", () => {  
-  audio(click);
+  console.log(`EQUALS: ${currentOperator}`);
 
-  if(currentOperator != null) {
-    previousOperandTextElement.append(`${currentNumber}`);
-    console.log(previousNumber,currentNumber);
-    result = add(parseInt(previousNumber),(parseInt(currentNumber)))
-    currentOperandTextElement.textContent = result;
-    currentNumber = '';
-    previousOperator = '+';
-  } else {
-    previousOperandTextElement.append(`${currentNumber}`);
-    console.log(previousNumber,currentNumber);
-    result = add(parseInt(previousNumber),(parseInt(currentNumber)))
-    currentOperandTextElement.textContent = result;
-    currentNumber = '';
-    previousOperator = '+';
-  }
+  previousOperandTextElement.append(`${currentNumber}`);
+  result = add(parseInt(previousNumber),(parseInt(currentNumber)));
+  currentOperandTextElement.textContent = result;
+  currentNumber = '';
+  previousOperator = '+';
+  console.log(`[data-equals] ${currentOperator} / ${previousOperator}`);
   
+  // switch(currentOperator) {
+  //   case '+':
+  //     previousOperandTextElement.append(`${currentNumber}`);
+  //     result = add(parseInt(previousNumber),(parseInt(currentNumber)));
+  //     currentOperandTextElement.textContent = result;
+  //     currentNumber = '';
+  //     previousOperator = '+';
+  //     console.log(`[data-equals] ${currentOperator} / ${previousOperator}`);
+  //   break;
+  // }
+
+  // previousOperandTextElement.append(`${currentNumber}`);
+  // result = add(parseInt(previousNumber),(parseInt(currentNumber)));
+  // currentOperandTextElement.textContent = result;
+  // currentNumber = '';
+  // previousOperator = '+';
+  // console.log(`[data-equals] ${currentOperator} / ${previousOperator}`)
+
 });
 
+addGlobalEventListener("click", "button", () => audio(click));
+addGlobalEventListener("click", "i", () => audio(click));
 
-// btnList.forEach((button) => {
-//   button.addEventListener('click', e => {
-//     const buttonValue = button.getAttribute("value");
-  
-//     audio(click);
-
-//     if(e.target.innerText) {
-//       console.log(e.target.innerText);
-//     } else {
-//       console.log(buttonValue);
-//     }
-//   });
-// });
+window.onload = () => {
+  // currentOperandTextElement.textContent = 0;
+};
