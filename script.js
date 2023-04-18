@@ -34,8 +34,20 @@ function divide(x,y) {
   return x / y;
 }
 
-function percent(x,y) {
-  return x % y;
+function decimal() {
+
+}
+
+function displayCurrentOutput(number) {
+  currentOperandTextElement.append(number);
+}
+
+function displayPreviousOutput(number,operator,) {
+  previousOperandTextElement.append(number,operator);
+}
+
+function clearElement(element) {
+  element.innerHTML = '';
 }
 
 function clear() {
@@ -47,69 +59,61 @@ function clear() {
   previousOperandTextElement.innerHTML = '';
 }
 
-function equals() {
+function equals(operator) {
+  previousOperandTextElement.append(`${currentNumber}`);
+  switch(operator) {
+    case '+':
+      result = add(parseInt(previousNumber),(parseInt(currentNumber)));
+    break;
 
-}
+    case '-':
+      result = subtract(parseInt(previousNumber),(parseInt(currentNumber)));
+    break;
 
-function decimal() {
+    case '×':
+      result = multiply(parseInt(previousNumber),(parseInt(currentNumber)));
+    break;
 
-}
+    case '÷':
+      result = divide(parseInt(previousNumber),(parseInt(currentNumber)));
+    break;
+  }
 
-function negative() {
+  currentOperandTextElement.textContent = result;
+  currentNumber = '';
 
-}
-
-function displayCurrentOutput(num) {
-  currentOperandTextElement.append(num);
-}
-
-function displayPreviousOutput(num,op) {
-  previousOperandTextElement.append(num,op);
-}
-
-function clearElement(element) {
-  element.innerHTML = '';
+  console.log(`func equals: ${currentOperator} ~ ${previousOperator}`);
 }
 
 function pressedOperator(operator) {
-
-  if (previousOperator === '+' || previousOperator === '-') {
+  if (previousOperator == '+' || previousOperator == '-' || 
+      previousOperator == '×' || previousOperator == '÷') {
     clearElement(previousOperandTextElement);
     displayPreviousOutput(result,operator);
-
     previousNumber = result;
-
-    console.log(`have data ${currentOperator} / ${previousOperator}`);
+    console.log(`func pressedOperator(have operator): ${currentOperator} ~ ${previousOperator}`);
   } else {
     displayPreviousOutput(currentNumber,operator);
-
     previousNumber = currentNumber;
     currentNumber = '';
-
-    console.log(`no data ${currentOperator} / ${previousOperator}`);
+    console.log(`func pressedOperator(no operator): ${currentOperator} ~ ${previousOperator}`);
   }
   currentOperator = operator; 
+  console.log(`func pressedOperator(final operator result): ${currentOperator} ~ ${previousOperator}`);
+}
 
-  // switch(operator) {
-  //   case '+': 
-  //     if (previousOperator === '+') {
-  //       clearElement(previousOperandTextElement);
-  //       displayPreviousOutput(result,operator);
+function pressedNumber(number){
+  displayCurrentOutput(number);
+  currentNumber += number;
 
-  //       previousNumber = result;
-  //       currentOperator = operator;
+  if(currentOperator != null && currentOperator != '') {
+    clearElement(currentOperandTextElement);
+    displayCurrentOutput(number);
+    previousOperator = currentOperator;
+    currentOperator = '';
+  }
 
-  //       console.log(`have data ${currentOperator} ${previousOperator}`)
-  //     } else {
-  //       displayPreviousOutput(currentNumber,operator);
-
-  //       previousNumber = currentNumber;
-  //       currentNumber = '';
-  //       console.log(`no data ${currentOperator} ${previousOperator}`)
-  //     }
-  //     currentOperator = operator; 
-  //   break;    
-  // }
+  console.log(`func pressedNumber: ${currentOperator} ~ ${previousOperator}`);
 }
 
 function addGlobalEventListener(type, selector, callback) {
@@ -119,16 +123,7 @@ function addGlobalEventListener(type, selector, callback) {
 }
 
 addGlobalEventListener("click", ".number", e => {  
-  displayCurrentOutput(e.target.textContent);
-  currentNumber += e.target.textContent;
-  console.log(`addGlobalEventListenerRR .number ${currentOperator} / ${previousOperator}`);
-
-  if(currentOperator !== null && currentOperator !== '') {
-    clearElement(currentOperandTextElement);
-    displayCurrentOutput(e.target.textContent);
-    currentOperator = '';
-    console.log(`operator has value ${currentOperator} / ${previousOperator}`);
- }
+  pressedNumber(e.target.textContent);
 });
 
 addGlobalEventListener("click", ".operator", e => {  
@@ -140,33 +135,7 @@ addGlobalEventListener("click", ".clear", () => {
 });
 
 addGlobalEventListener("click", "[data-equals]", () => {  
-  console.log(`EQUALS: ${currentOperator}`);
-
-  previousOperandTextElement.append(`${currentNumber}`);
-  result = add(parseInt(previousNumber),(parseInt(currentNumber)));
-  currentOperandTextElement.textContent = result;
-  currentNumber = '';
-  previousOperator = '+';
-  console.log(`[data-equals] ${currentOperator} / ${previousOperator}`);
-  
-  // switch(currentOperator) {
-  //   case '+':
-  //     previousOperandTextElement.append(`${currentNumber}`);
-  //     result = add(parseInt(previousNumber),(parseInt(currentNumber)));
-  //     currentOperandTextElement.textContent = result;
-  //     currentNumber = '';
-  //     previousOperator = '+';
-  //     console.log(`[data-equals] ${currentOperator} / ${previousOperator}`);
-  //   break;
-  // }
-
-  // previousOperandTextElement.append(`${currentNumber}`);
-  // result = add(parseInt(previousNumber),(parseInt(currentNumber)));
-  // currentOperandTextElement.textContent = result;
-  // currentNumber = '';
-  // previousOperator = '+';
-  // console.log(`[data-equals] ${currentOperator} / ${previousOperator}`)
-
+  equals(previousOperator);
 });
 
 addGlobalEventListener("click", "button", () => audio(click));
