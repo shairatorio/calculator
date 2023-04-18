@@ -179,6 +179,7 @@ button:active {
 
 .clear, .delete {
     color: var(--color-white);
+    grid-column: span 2;
 }
 
 .fa-github {
