@@ -42,7 +42,7 @@ function displayCurrentOutput(number) {
   currentOperandTextElement.append(number);
 }
 
-function displayPreviousOutput(number,operator,) {
+function displayPreviousOutput(number,operator) {
   previousOperandTextElement.append(number,operator);
 }
 
@@ -50,12 +50,18 @@ function clearElement(element) {
   element.innerHTML = '';
 }
 
+function remove(){
+  let num = currentOperandTextElement.textContent.slice(0, -1);
+  currentOperandTextElement.textContent = num;
+  currentNumber = num;
+}
+
 function clear() {
   currentNumber = '';
   previousNumber = '';
   currentOperator = '';
   previousOperator = '';
-  currentOperandTextElement.innerHTML = '';
+  currentOperandTextElement.textContent = 0;
   previousOperandTextElement.innerHTML = '';
 }
 
@@ -81,6 +87,7 @@ function equals(operator) {
 
   currentOperandTextElement.textContent = result;
   currentNumber = '';
+  boolEquals = true;
 
   console.log(`func equals: ${currentOperator} ~ ${previousOperator}`);
 }
@@ -88,21 +95,41 @@ function equals(operator) {
 function pressedOperator(operator) {
   if (previousOperator == '+' || previousOperator == '-' || 
       previousOperator == '×' || previousOperator == '÷') {
+    console.log(`---------------`)
+    console.log(`result: ${result} ~ currentNumber: ${currentNumber} ~ previousNumber: ${previousNumber}`);
+    console.log(`---------------`)
     clearElement(previousOperandTextElement);
     displayPreviousOutput(result,operator);
     previousNumber = result;
     console.log(`func pressedOperator(have operator): ${currentOperator} ~ ${previousOperator}`);
+    console.log(`---------------`)
+    console.log(`result: ${result} ~ currentNumber: ${currentNumber} ~ previousNumber: ${previousNumber}`);
+    console.log(`---------------`)
   } else {
+    console.log(`---------------`)
+    console.log(`result: ${result} ~ currentNumber: ${currentNumber} ~ previousNumber: ${previousNumber}`);
+    console.log(`---------------`)
     displayPreviousOutput(currentNumber,operator);
     previousNumber = currentNumber;
     currentNumber = '';
     console.log(`func pressedOperator(no operator): ${currentOperator} ~ ${previousOperator}`);
+    console.log(`---------------`)
+    console.log(`result: ${result} ~ currentNumber: ${currentNumber} ~ previousNumber: ${previousNumber}`);
+    console.log(`---------------`)
+    // displayPreviousOutput(currentNumber,operator);
+    // previousNumber = currentNumber;
+    // currentNumber = '';
+    // console.log(`func pressedOperator(no operator): ${currentOperator} ~ ${previousOperator}`);
   }
   currentOperator = operator; 
   console.log(`func pressedOperator(final operator result): ${currentOperator} ~ ${previousOperator}`);
 }
 
 function pressedNumber(number){
+  if(currentOperandTextElement.textContent == 0 && previousOperandTextElement.textContent == '') {
+    clearElement(currentOperandTextElement);
+  }
+
   displayCurrentOutput(number);
   currentNumber += number;
 
@@ -134,6 +161,10 @@ addGlobalEventListener("click", ".clear", () => {
   clear();
 });
 
+addGlobalEventListener("click", ".delete", () => {  
+  remove();
+});
+
 addGlobalEventListener("click", "[data-equals]", () => {  
   equals(previousOperator);
 });
@@ -142,5 +173,5 @@ addGlobalEventListener("click", "button", () => audio(click));
 addGlobalEventListener("click", "i", () => audio(click));
 
 window.onload = () => {
-  // currentOperandTextElement.textContent = 0;
+  currentOperandTextElement.textContent = 0;
 };
