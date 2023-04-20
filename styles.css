@@ -100,15 +100,15 @@ h2 {
     align-items: flex-end;
 }
 
-.previous-operand, .current-operand {
+.previous-label, .current-label {
     font-family: var(--font-style-bai-jamjuree);
 }
 
-.previous-operand {
+.previous-label {
     font-size: 18px;
 }
 
-.current-operand {
+.current-label {
     margin-top: 5px;
     font-size: 40px;
     font-weight: bolder;
@@ -189,7 +189,8 @@ button:active {
 }
   
 .fa-github:hover {
-    transform: rotate(360deg) scale(1.2);
+    /* transform: rotate(360deg) scale(1.2); */
+    transform: scale(1.3);
 }
 
 .footer {
