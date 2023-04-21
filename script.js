@@ -126,3 +126,21 @@ addGlobalEventListener("click","[data-decimal-point]", () => appendDecimalPoint(
 addGlobalEventListener("click", "[data-equals]", () => evaluate());
 addGlobalEventListener("click", "button", () => audio(click));
 addGlobalEventListener("click", "i", () => audio(click));
+
+// Keyboard
+const operatorsObj = {
+  '+': '+',
+  '-': '-',
+  '*': '×',
+  '/': '÷'
+};
+
+addGlobalEventListener('keydown', 'body', e => {
+  console.log(e.key);
+  (e.key === 'Escape' || e.key === 'Delete') ? (clear(), audio(click)) : null;
+  e.key === 'Backspace' ? (deleteNumber(), audio(click)) : null;
+  (e.key === 'Enter' || e.key === '=') ? (evaluate(), audio(click)) : null;
+  (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? 
+  (setOperation(operatorsObj[e.key]), audio(click)): null;
+  (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key),audio(click)) : null;
+});
