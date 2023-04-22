@@ -58,7 +58,7 @@ function appendDecimalPoint() {
   boolEqualsPressed = false;
 }
 
-function setOperation(operator){
+function setOperator(operator){
   checkErrorMsg();
   currentOperator !== null ? evaluate() : null;
   firstOperand = currentLabel.textContent;
@@ -124,7 +124,7 @@ function addGlobalEventListener(type, selector, callback) {
 }
 
 addGlobalEventListener("click", "[data-number]", e => appendNumber(e.target.textContent));
-addGlobalEventListener("click", "[data-operator]", e => setOperation(e.target.value));
+addGlobalEventListener("click", "[data-operator]", e => setOperator(e.target.value));
 addGlobalEventListener("click", "[data-clear]", () => clear());
 addGlobalEventListener("click", "[data-delete]", () => deleteNumber());
 addGlobalEventListener("click","[data-decimal-point]", () => appendDecimalPoint());
@@ -146,6 +146,6 @@ addGlobalEventListener('keydown', 'body', e => {
   e.key === 'Backspace' ? (deleteNumber(), audio(click)) : null;
   (e.key === 'Enter' || e.key === '=') ? (evaluate(), audio(click)) : null;
   (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? 
-  (setOperation(operatorsObj[e.key]), audio(click)): null;
+  (setOperator(operatorsObj[e.key]), audio(click)): null;
   (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key),audio(click)) : null;
 });

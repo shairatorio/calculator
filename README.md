@@ -25,4 +25,3 @@ The interface is designed to be user-friendly, featuring a keypad for inputting 
 
   ![Screenshot of mobile view](https://github.com/shairatorio/calculator/blob/main/resources/images/mobile-calculator.png?raw=true)
 </details>
-
