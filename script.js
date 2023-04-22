@@ -7,6 +7,7 @@ let secondOperand = '';
 let currentOperator  = null;
 let boolCurrentLabel = false;
 let boolEqualsPressed = false;
+let errorMsg = 'Cannot divide by zero';
 
 function audio(sound) {
   sound.play();
@@ -29,12 +30,18 @@ function reset() {
   boolEqualsPressed ? clear() : null;
 }
 
+function checkErrorMsg() {
+  currentLabel.textContent === errorMsg ? clear() : null;
+}
+
 function deleteNumber() {
+  checkErrorMsg();
   currentLabel.textContent = currentLabel.textContent.toString().slice(0, -1);
   currentLabel.textContent === '' ? clear() : null;
 }
 
 function appendNumber(number) {
+  checkErrorMsg();
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
   currentLabel.textContent += number;
@@ -42,6 +49,7 @@ function appendNumber(number) {
 }
 
 function appendDecimalPoint() {
+  checkErrorMsg();
   reset();
   boolCurrentLabel ? clearCurrentLabel() : null;
   currentLabel.textContent === '' ? currentLabel.textContent = '0' : null;
@@ -51,6 +59,7 @@ function appendDecimalPoint() {
 }
 
 function setOperation(operator){
+  checkErrorMsg();
   currentOperator !== null ? evaluate() : null;
   firstOperand = currentLabel.textContent;
   currentOperator = operator;
@@ -62,22 +71,18 @@ function setOperation(operator){
 function evaluate() {
   if (currentOperator === null || boolCurrentLabel) return
   if (currentOperator === '÷' && currentLabel.textContent === '0') {
-    // ---------------- //
-    // will fix cannot divide by zero
     clear();
-    currentLabel.textContent = 'Cannot divide by zero';
-    boolCurrentLabel = true;
+    currentLabel.textContent = errorMsg;
     return;
-    // ---------------- //
   }
   secondOperand = currentLabel.textContent
-  currentLabel.textContent = roundResult(compute(firstOperand, currentOperator, secondOperand))
+  currentLabel.textContent = roundToThreeDecimalPlaces(compute(firstOperand, currentOperator, secondOperand))
   previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`
   currentOperator = null;
   boolEqualsPressed = true;
 }
 
-function roundResult(number) {
+function roundToThreeDecimalPlaces(number) {
   return Math.round(number * 1000) / 1000;
 }
 
