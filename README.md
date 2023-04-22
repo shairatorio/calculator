@@ -1,6 +1,6 @@
 # Project: Calculator
 
-![Screenshot of desktop view](https://github.com/shairatorio/calculator/blob/develop/resources/images/desktop-calculator.png?raw=true)
+![Screenshot of desktop view](https://github.com/shairatorio/calculator/blob/main/resources/images/desktop-calculator.png?raw=true)
 
 Developed a Calculator Web Application using HTML, CSS and Javascript for my project in [The Odin Project](https://www.theodinproject.com/) Curriculum.
 
@@ -23,6 +23,6 @@ The interface is designed to be user-friendly, featuring a keypad for inputting 
 <details>
   <summary>Mobile</summary>
 
-  ![Screenshot of mobile view](https://github.com/shairatorio/calculator/blob/develop/resources/images/mobile-calculator.png?raw=true)
+  ![Screenshot of mobile view](https://github.com/shairatorio/calculator/blob/main/resources/images/mobile-calculator.png?raw=true)
 </details>
 
