@@ -45,7 +45,6 @@ function appendNumber(number) {
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
   if(currentLabel.textContent.length >= 10) return;
-  console.log(currentLabel.textContent.length);
   currentLabel.textContent += number;
   boolEqualsPressed = false;
 
@@ -80,14 +79,14 @@ function evaluate() {
     return;
   }
   secondOperand = currentLabel.textContent
-  currentLabel.textContent = roundToThreeDecimalPlaces(compute(firstOperand, currentOperator, secondOperand))
+  currentLabel.textContent = roundToTwoDecimalPlaces(compute(firstOperand, currentOperator, secondOperand))
   previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`
   currentOperator = null;
   boolEqualsPressed = true;
 }
 
-function roundToThreeDecimalPlaces(number) {
-  return Math.round(number * 1000) / 1000;
+function roundToTwoDecimalPlaces(number) {
+  return Math.round(number * 100) / 100;
 }
 
 function add(x,y) {
