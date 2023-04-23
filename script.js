@@ -46,9 +46,21 @@ function appendNumber(number) {
   checkErrorMsg();
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
-  if (currentLabel.textContent.length >= maxLength) return;
   currentLabel.textContent += number;
   boolEqualsPressed = false;
+}
+
+// function made which puts numbers previously too large for calulator to display into scientific notation
+
+function handleMaxLength() {
+  if (currentLabel.textContent.length >= maxLength) {
+    const num = Number(currentLabel.textContent);
+    const roundedNum = num.toPrecision(maxLength - 2);
+    currentLabel.textContent = parseFloat(roundedNum).toExponential();
+    previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
+    currentOperator = null;
+    boolEqualsPressed = true;
+  }
 }
 
 function appendDecimalPoint() {
@@ -80,11 +92,7 @@ function evaluate() {
   }
   secondOperand = currentLabel.textContent;
   currentLabel.textContent = roundToTwoDecimalPlaces(compute(firstOperand, currentOperator, secondOperand));
-  if (currentLabel.textContent.length >= maxLength) {
-    clear();
-    currentLabel.textContent = maxLimitMsg;
-    return;
-  } 
+  handleMaxLength();
   previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
   currentOperator = null;
   boolEqualsPressed = true;
@@ -117,7 +125,7 @@ function compute(x,operator,y) {
     case '+':
       return add(x,y);
     case '-':
-      return substract(x,y);
+      return subtract(x,y);
     case '×':
       return multiply(x,y);
     case '÷':
@@ -128,14 +136,19 @@ function compute(x,operator,y) {
 }
 
 function addGlobalEventListener(type, selector, callback) {
-  document.addEventListener(type, e => e.target.matches(selector) ? callback(e) : null);
+  document.addEventListener(type, (e) =>
+    e.target.matches(selector) ? callback(e) : null
+  );
 }
-
-addGlobalEventListener("click", "[data-number]", e => appendNumber(e.target.textContent));
-addGlobalEventListener("click", "[data-operator]", e => setOperator(e.target.value));
+addGlobalEventListener("click", "[data-number]", (e) =>
+  appendNumber(e.target.textContent)
+);
+addGlobalEventListener("click", "[data-operator]", (e) =>
+  setOperator(e.target.value)
+);
 addGlobalEventListener("click", "[data-clear]", () => clear());
 addGlobalEventListener("click", "[data-delete]", () => deleteNumber());
-addGlobalEventListener("click","[data-decimal-point]", () => appendDecimalPoint());
+addGlobalEventListener("click", "[data-decimal-point]", () => appendDecimalPoint());
 addGlobalEventListener("click", "[data-equals]", () => evaluate());
 addGlobalEventListener("click", "button", () => audio(click));
 addGlobalEventListener("click", "i", () => audio(click));
@@ -145,15 +158,20 @@ const operatorsObj = {
   '+': '+',
   '-': '-',
   '*': '×',
-  '/': '÷'
+  '/': '÷',
 };
 
-addGlobalEventListener('keydown', 'body', e => {
+addGlobalEventListener('keydown', 'body', (e) => {
   console.log(e.key);
-  (e.key === 'Escape' || e.key === 'Delete') ? (clear(), audio(click)) : null;
+  e.key === 'Escape' || e.key === 'Delete'
+    ? (clear(), audio(click))
+    : null;
   e.key === 'Backspace' ? (deleteNumber(), audio(click)) : null;
-  (e.key === 'Enter' || e.key === '=') ? (evaluate(), audio(click)) : null;
-  (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? 
-  (setOperator(operatorsObj[e.key]), audio(click)): null;
-  (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key),audio(click)) : null;
+  e.key === "Enter" || e.key === '=' ? (evaluate(), audio(click)) : null;
+  (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/')
+    ? (setOperator(operatorsObj[e.key]), audio(click))
+    : null;
+  e.key >= 0 && e.key <= 9
+    ? (appendNumber(e.key), audio(click))
+    : null;
 });
