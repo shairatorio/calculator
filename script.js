@@ -8,6 +8,8 @@ let currentOperator  = null;
 let boolCurrentLabel = false;
 let boolEqualsPressed = false;
 let errorMsg = 'Cannot divide by zero';
+let maxLength = 10;
+let maxLimitMsg = 'Number is too large';
 
 function audio(sound) {
   sound.play();
@@ -44,11 +46,9 @@ function appendNumber(number) {
   checkErrorMsg();
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
-  if(currentLabel.textContent.length >= 10) return;
+  if (currentLabel.textContent.length >= maxLength) return;
   currentLabel.textContent += number;
   boolEqualsPressed = false;
-
-  
 }
 
 function appendDecimalPoint() {
@@ -56,7 +56,7 @@ function appendDecimalPoint() {
   reset();
   boolCurrentLabel ? clearCurrentLabel() : null;
   currentLabel.textContent === '' ? currentLabel.textContent = '0' : null;
-  if (currentLabel.textContent.includes('.')) return
+  if (currentLabel.textContent.includes('.')) return;
   currentLabel.textContent += '.';
   boolEqualsPressed = false;
 }
@@ -72,15 +72,20 @@ function setOperator(operator){
 }
 
 function evaluate() {
-  if (currentOperator === null || boolCurrentLabel) return
+  if (currentOperator === null || boolCurrentLabel) return;
   if (currentOperator === '÷' && currentLabel.textContent === '0') {
     clear();
     currentLabel.textContent = errorMsg;
     return;
   }
-  secondOperand = currentLabel.textContent
-  currentLabel.textContent = roundToTwoDecimalPlaces(compute(firstOperand, currentOperator, secondOperand))
-  previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`
+  secondOperand = currentLabel.textContent;
+  currentLabel.textContent = roundToTwoDecimalPlaces(compute(firstOperand, currentOperator, secondOperand));
+  if (currentLabel.textContent.length >= maxLength) {
+    clear();
+    currentLabel.textContent = maxLimitMsg;
+    return;
+  } 
+  previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
   currentOperator = null;
   boolEqualsPressed = true;
 }
