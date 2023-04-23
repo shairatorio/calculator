@@ -44,8 +44,12 @@ function appendNumber(number) {
   checkErrorMsg();
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
+  if(currentLabel.textContent.length >= 10) return;
+  console.log(currentLabel.textContent.length);
   currentLabel.textContent += number;
   boolEqualsPressed = false;
+
+  
 }
 
 function appendDecimalPoint() {
