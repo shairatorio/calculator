@@ -253,5 +253,12 @@ button:active {
 /* Media query for screens with a minimum width of 1025px */
 @media only screen and (min-width: 1025px) {
 /* Styles for larger desktop devices and wide screens */
+    .container {
+        width: 30%;
+        margin: 2rem;
+    }   
 
+    .current-label {
+        font-size: 4rem;
+    }
 }
