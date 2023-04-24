@@ -63,7 +63,7 @@ function appendDecimalPoint() {
 
 function setOperator(operator){
   checkErrorMsg();
-  currentOperator !== null ? evaluate() : null;
+  currentOperator !== null ? validateAndCalculate() : null;
   firstOperand = currentLabel.textContent;
   currentOperator = operator;
   previousLabel.textContent = `${firstOperand} ${currentOperator}`;
@@ -71,18 +71,39 @@ function setOperator(operator){
   boolEqualsPressed = false;
 }
 
-function evaluate() {
+// clear() is not working inside checkInvalidInputDivision() and checkMaxLength()
+function checkInvalidInputDivision() {
+  if (currentOperator === '÷' && currentLabel.textContent === '0') {
+    clear();
+    currentLabel.textContent = errorMsg;
+    return;
+  }
+}
+
+function checkMaxLength() {
+  if (currentLabel.textContent.length >= maxLength) {
+    clear();
+    currentLabel.textContent = maxLimitMsg;
+    checkMaxLength.clear = clear;
+    return;
+  } 
+}
+
+function validateAndCalculate() {
   if (currentOperator === null || boolCurrentLabel) return;
+  // checkInvalidInputDivision();
   if (currentOperator === '÷' && currentLabel.textContent === '0') {
     clear();
     currentLabel.textContent = errorMsg;
     return;
   }
   secondOperand = currentLabel.textContent;
-  currentLabel.textContent = roundToTwoDecimalPlaces(compute(firstOperand, currentOperator, secondOperand));
+  currentLabel.textContent = roundToTwoDecimalPlaces(operate(firstOperand, currentOperator, secondOperand));
+  // checkMaxLength();
   if (currentLabel.textContent.length >= maxLength) {
     clear();
     currentLabel.textContent = maxLimitMsg;
+    checkMaxLength.clear = clear;
     return;
   } 
   previousLabel.textContent = `${firstOperand} ${currentOperator} ${secondOperand} =`;
@@ -98,7 +119,7 @@ function add(x,y) {
   return x + y
 }
 
-function substract(x,y) {
+function subtract(x,y) {
   return x - y
 }
 
@@ -110,14 +131,14 @@ function divide(x,y) {
   return x / y;
 }
 
-function compute(x,operator,y) {
+function operate(x,operator,y) {
   x = Number(x);
   y = Number(y);
   switch (operator) {
     case '+':
       return add(x,y);
     case '-':
-      return substract(x,y);
+      return subtract(x,y);
     case '×':
       return multiply(x,y);
     case '÷':
@@ -135,8 +156,8 @@ addGlobalEventListener("click", "[data-number]", e => appendNumber(e.target.text
 addGlobalEventListener("click", "[data-operator]", e => setOperator(e.target.value));
 addGlobalEventListener("click", "[data-clear]", () => clear());
 addGlobalEventListener("click", "[data-delete]", () => deleteNumber());
-addGlobalEventListener("click","[data-decimal-point]", () => appendDecimalPoint());
-addGlobalEventListener("click", "[data-equals]", () => evaluate());
+addGlobalEventListener("click", "[data-decimal-point]", () => appendDecimalPoint());
+addGlobalEventListener("click", "[data-equals]", () => validateAndCalculate());
 addGlobalEventListener("click", "button", () => audio(click));
 addGlobalEventListener("click", "i", () => audio(click));
 
@@ -149,11 +170,10 @@ const operatorsObj = {
 };
 
 addGlobalEventListener('keydown', 'body', e => {
-  console.log(e.key);
   (e.key === 'Escape' || e.key === 'Delete') ? (clear(), audio(click)) : null;
   e.key === 'Backspace' ? (deleteNumber(), audio(click)) : null;
-  (e.key === 'Enter' || e.key === '=') ? (evaluate(), audio(click)) : null;
+  (e.key === 'Enter' || e.key === '=') ? (validateAndCalculate(), audio(click)) : null;
   (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? 
-  (setOperator(operatorsObj[e.key]), audio(click)): null;
-  (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key),audio(click)) : null;
+    (setOperator(operatorsObj[e.key]), audio(click)) : null;
+  (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key), audio(click)) : null;
 });
