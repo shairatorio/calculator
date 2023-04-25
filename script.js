@@ -32,18 +32,18 @@ function reset() {
   boolEqualsPressed ? clear() : null;
 }
 
-function checkErrorMsg() {
-  currentLabel.textContent === errorMsg ? clear() : null;
+function checkMsg() {
+  (currentLabel.textContent === errorMsg || currentLabel.textContent === maxLimitMsg) ? clear() : null;
 }
 
 function deleteNumber() {
-  checkErrorMsg();
+  checkMsg();
   currentLabel.textContent = currentLabel.textContent.toString().slice(0, -1);
   currentLabel.textContent === '' ? clear() : null;
 }
 
 function appendNumber(number) {
-  checkErrorMsg();
+  checkMsg();
   reset();
   (currentLabel.textContent === '0' || boolCurrentLabel) ? clearCurrentLabel() : null;
   if (currentLabel.textContent.length >= maxLength) return;
@@ -52,7 +52,7 @@ function appendNumber(number) {
 }
 
 function appendDecimalPoint() {
-  checkErrorMsg();
+  checkMsg();
   reset();
   boolCurrentLabel ? clearCurrentLabel() : null;
   currentLabel.textContent === '' ? currentLabel.textContent = '0' : null;
@@ -62,7 +62,7 @@ function appendDecimalPoint() {
 }
 
 function setOperator(operator){
-  checkErrorMsg();
+  checkMsg();
   currentOperator !== null ? validateAndCalculate() : null;
   firstOperand = currentLabel.textContent;
   currentOperator = operator;
@@ -171,9 +171,9 @@ const operatorsObj = {
 
 addGlobalEventListener('keydown', 'body', e => {
   (e.key === 'Escape' || e.key === 'Delete') ? (clear(), audio(click)) : null;
-  e.key === 'Backspace' ? (deleteNumber(), audio(click)) : null;
+  (e.key === 'Backspace') ? (deleteNumber(), audio(click)) : null;
   (e.key === 'Enter' || e.key === '=') ? (validateAndCalculate(), audio(click)) : null;
-  (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? 
-    (setOperator(operatorsObj[e.key]), audio(click)) : null;
+  (e.key === '.') ? (appendDecimalPoint(), audio(click)) : null;
+  (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') ? (setOperator(operatorsObj[e.key]), audio(click)) : null;
   (e.key >= 0 && e.key <= 9) ? (appendNumber(e.key), audio(click)) : null;
 });
