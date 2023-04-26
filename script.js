@@ -152,14 +152,14 @@ function addGlobalEventListener(type, selector, callback) {
   document.addEventListener(type, e => e.target.matches(selector) ? callback(e) : null);
 }
 
-addGlobalEventListener("click", "[data-number]", e => appendNumber(e.target.textContent));
-addGlobalEventListener("click", "[data-operator]", e => setOperator(e.target.value));
-addGlobalEventListener("click", "[data-clear]", () => clear());
-addGlobalEventListener("click", "[data-delete]", () => deleteNumber());
-addGlobalEventListener("click", "[data-decimal-point]", () => appendDecimalPoint());
-addGlobalEventListener("click", "[data-equals]", () => validateAndCalculate());
-addGlobalEventListener("click", "button", () => audio(click));
-addGlobalEventListener("click", "i", () => audio(click));
+addGlobalEventListener('click', '[data-number]', e => appendNumber(e.target.textContent));
+addGlobalEventListener('click', '[data-operator]', e => setOperator(e.target.value));
+addGlobalEventListener('click', '[data-clear]', () => clear());
+addGlobalEventListener('click', '[data-delete]', () => deleteNumber());
+addGlobalEventListener('click', '[data-decimal-point]', () => appendDecimalPoint());
+addGlobalEventListener('click', '[data-equals]', () => validateAndCalculate());
+addGlobalEventListener('click', 'button', () => audio(click));
+addGlobalEventListener('click', 'i', () => audio(click));
 
 // Keyboard
 const operatorsObj = {
